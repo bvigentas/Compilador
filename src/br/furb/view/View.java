@@ -10,6 +10,7 @@ import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.stream.Collectors;
+
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JComponent;
@@ -17,6 +18,10 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+import br.furb.analisador_lexico.Lexico;
+import br.furb.analisador_lexico.Token;
+import br.furb.analisador_lexico.*;
 
 /**
  *
@@ -440,6 +445,19 @@ public class View extends javax.swing.JFrame {
 
     private void buttonCompileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCompileActionPerformed
         textAreaMessage.append("Compilação de programas ainda não foi implementada.\n");
+        Lexico lexico = new Lexico();
+        //...
+        lexico.setInput(textAreaEditor.getText());
+        //...
+        try {
+          Token t = null;
+          while ( (t = lexico.nextToken()) != null ) {
+              System.out.println(t.getLexeme() + t.getId());
+          }
+		} catch (LexicalError e) {
+			System.err.println(e.getMessage() + ", em " + e.getPosition());
+			textAreaMessage.append((e.getMessage() + ", em " + e.getPosition()));
+		}
     }//GEN-LAST:event_buttonCompileActionPerformed
 
     private void buttonOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonOpenActionPerformed
