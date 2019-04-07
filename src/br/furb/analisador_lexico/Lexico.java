@@ -55,8 +55,17 @@ public class Lexico implements Constants
                 }
             }
         }
-        if (endState < 0 || (endState != state && tokenForState(lastState) == -2))
-            throw new LexicalError(SCANNER_ERROR[lastState], start);
+        if (endState < 0 || (endState != state && tokenForState(lastState) == -2)) {
+        	
+        	String msgErro = SCANNER_ERROR[lastState];
+        	
+        	if(msgErro.contains("Símbolo inválido")){
+        		throw new LexicalError(msgErro, getRowError(start), input.charAt(start));
+        	}else {
+        		throw new LexicalError(msgErro, getRowError(start));
+        	}
+        	
+        }
 
         position = end;
 
@@ -72,10 +81,31 @@ public class Lexico implements Constants
         }
     }
     
-    private int getRowError() {
-    	return 0;
+    private int getRowError(int positionStartError) {
+    	
+    	String text = input;
+    	String[] arrayLines = text.split("\n");
+    	int lineError = 0;
+    	int countLine = 0;
+    	
+    	for (int i = 0; i < arrayLines.length; i++) {
+    		
+    		if (arrayLines[i].length() == 0) {
+    			countLine += 1;
+			}else {
+				countLine += arrayLines[i].length();
+			}
+    		    		
+			if (countLine >= positionStartError) {
+				lineError += i;
+				
+				break;
+			}
+		}
+    	
+    	return lineError == 0 ? lineError + 1 : lineError ;
     }
-
+    
     private int nextState(char c, int state)
     {
         int start = SCANNER_TABLE_INDEXES[state];

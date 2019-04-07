@@ -8,7 +8,7 @@ public class Token
 
     public String getClasse(int id) {
     	
-    	if (id >= 9 || id <= 30) {
+    	if (id >= 9 && id <= 30) {
     		return "palavra reservada";
     	}
     	
@@ -51,6 +51,30 @@ public class Token
         return id;
     }
 
+    public final int getRow(String text) {
+        	
+    	String[] arrayLines = text.split("\n");
+    	int line = 0;
+    	int countLine = 0;
+    	
+    	for (int i = 0; i < arrayLines.length; i++) {
+    		
+    		if (arrayLines[i].length() == 0) {
+    			countLine += 1;
+			}else {
+				countLine += arrayLines[i].length();
+			}
+    		    		
+			if (countLine >= position) {
+				line += i;
+				
+				break;
+			}
+		}
+    	
+    	return line == 0 ? line + 1 : line ;
+    }
+    
     public final String getLexeme()
     {
         return lexeme;

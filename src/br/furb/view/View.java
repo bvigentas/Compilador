@@ -444,19 +444,25 @@ public class View extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonSaveActionPerformed
 
     private void buttonCompileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCompileActionPerformed
-        textAreaMessage.append("Compilação de programas ainda não foi implementada.\n");
+        
+    	textAreaMessage.setText("");
+    	String text = textAreaEditor.getText();
+    	StringBuilder resultCompile = new StringBuilder();
+    	
         Lexico lexico = new Lexico();
-        //...
-        lexico.setInput(textAreaEditor.getText());
-        //...
+        lexico.setInput(text);
+
         try {
-          Token t = null;
-          while ( (t = lexico.nextToken()) != null ) {
-              System.out.println(t.getLexeme() + t.getId());
+          Token token = null;
+          
+          while ((token = lexico.nextToken()) != null ) {
+        	  resultCompile.append(("Linha " + token.getRow(text) + " - " + token.getClasse(token.getId()) + " " + token.getLexeme() + "\n"));
           }
-		} catch (LexicalError e) {
-			System.err.println(e.getMessage() + ", em " + e.getPosition());
-			textAreaMessage.append((e.getMessage() + ", em " + e.getPosition()));
+          
+          textAreaMessage.append(resultCompile.toString());
+          textAreaMessage.append("Programa compilado com sucesso.");
+		} catch (LexicalError erro) {
+			textAreaMessage.append(("Erro na linha " + erro.getPosition() + " - " + erro.getMessage()));
 		}
     }//GEN-LAST:event_buttonCompileActionPerformed
 
