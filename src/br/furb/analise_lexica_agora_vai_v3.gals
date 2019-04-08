@@ -3,15 +3,18 @@ GenerateScanner = true
 GenerateParser = false
 Language = Java
 ScannerName = Lexico
+Package = br.furb.analisador_lexico
 ScannerCaseSensitive = true
 ScannerTable = Compact
-Input = Stream
+Input = String
 #RegularDefinitions
 mai: [A-Z]
 min:[a-z]
 dig:[0-9]
 dig_1_9: [1-9]
 letra: {mai}|{min}
+comentario_bloco: #\|[^#\|]((#+[^#\|])*|(\|?[^#\|])*)*\|#
+comentario_linha: &&[^\n]*
 #Tokens
 //Identificador
 
@@ -30,12 +33,6 @@ constante_stirng: \"[^\n\"\\]*\"
 
 //Constante caracter
 constante_caracter: \\(s|n|t)
-
-//Comentario de linha
-comentario_linha: &&[^\n]*
-
-//COmentario de bloco
-comentario__bloco: #\|[^#\|]((#+[^#\|])*|(\|?[^#\|])*)*\|#
 
 //Palavras reservadas
 
@@ -85,3 +82,8 @@ write = id: "write"
 "^"
 
 //Caracteres de formatacao
+:[\s\n\t]
+
+//Ignorar comentario
+:! {comentario_bloco}
+:! {comentario_linha}
