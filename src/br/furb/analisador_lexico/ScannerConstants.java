@@ -1554,16 +1554,16 @@ public interface ScannerConstants
         {57, 40}
     };
 
-    int[] TOKEN_STATE = {-1,  0, -1, -1, -1, -1, 31, 32, 41, 39, 43, 40, 44, 42,  3,  3, 46, 45, 35, 47, 37,  2, -1, 50,  2, 34,  5, -1,  7, 48, 49, -1,  3, 36, 33, 38,  2,  6,  2, -1,  4, -1, -1, -1,  8 };
+    int[] TOKEN_STATE = {-2,  0, -1, -1, -2, -2, 29, 30, 39, 37, 41, 38, 42, 40,  3,  3, 44, 43, 33, 45, 35,  2, -1, 48,  2, 32,  5, -2,  0, 46, 47, -1,  3, 34, 31, 36,  2,  6,  2, -2,  4, -2, -2, -1,  0 };
 
     int[] SPECIAL_CASES_INDEXES =
-        { 0, 0, 0, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22 };
+        { 0, 0, 0, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22 };
 
     String[] SPECIAL_CASES_KEYS =
         {  "and", "begin", "bool", "char", "end", "false", "float", "forward", "ifFalseDo", "ifTrueDo", "int", "main", "module", "not", "or", "read", "string", "true", "void", "whileFalseDo", "whileTrueDo", "write" };
 
     int[] SPECIAL_CASES_VALUES =
-        {  9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30 };
+        {  7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28 };
 
     String[] SCANNER_ERROR =
     {
@@ -1571,8 +1571,8 @@ public interface ScannerConstants
         "",
         "Símbolo inválido.",
         "Constante string inválida.",
-        "Comentário de bloco inválido ou não finalizado.",
-        "Comentário de linha inválido.",
+        "Erro identificando <ignorar>",
+        "Erro identificando <ignorar>",
         "",
         "",
         "",
@@ -1594,7 +1594,7 @@ public interface ScannerConstants
         "",
         "",
         "",
-        "Comentário de bloco inválido ou não finalizado.",
+        "Erro identificando <ignorar>",
         "",
         "",
         "",
@@ -1606,10 +1606,10 @@ public interface ScannerConstants
         "",
         "",
         "",
-        "Comentário de bloco inválido ou não finalizado.",
+        "Erro identificando <ignorar>",
         "",
-        "Comentário de bloco inválido ou não finalizado.",
-        "Comentário de bloco inválido ou não finalizado.",
+        "Erro identificando <ignorar>",
+        "Erro identificando <ignorar>",
         "Constante real inválida.",
         ""
     };
