@@ -60,12 +60,8 @@ public class Token
     	for (int i = 0; i < arrayLines.length; i++) {
 
     		arrayLines[i] += "\n";
-    		
-    		if (arrayLines[i].length() == 0) {
-    			countLine += 2;
-			}else {
-				countLine += arrayLines[i].length();
-			}
+    		countLine += arrayLines[i].length();
+			
     		    		
 			if (countLine > position) {
 				line += i + 1;
