@@ -449,21 +449,28 @@ public class View extends javax.swing.JFrame {
     	String text = textAreaEditor.getText();
     	StringBuilder resultCompile = new StringBuilder();
     	
-        Lexico lexico = new Lexico();
-        lexico.setInput(text);
+    	if (!text.isEmpty() && !text.matches("^[\\n|\\t|\\s]*$")) {
+			Lexico lexico = new Lexico();
+			lexico.setInput(text);
 
-        try {
-          Token token = null;
-          
-          while ((token = lexico.nextToken()) != null ) {
-        	  resultCompile.append(("Linha " + token.getRow(text) + " - " + token.getClasse(token.getId()) + " " + token.getLexeme() + "\n"));
-          }
-          
-          textAreaMessage.append(resultCompile.toString());
-          textAreaMessage.append("Programa compilado com sucesso.");
-		} catch (LexicalError erro) {
-			textAreaMessage.append(("Erro na linha " + erro.getPosition() + " - " + erro.getMessage()));
+			try {
+				Token token = null;
+
+				while ((token = lexico.nextToken()) != null) {
+					resultCompile.append(("Linha " + token.getRow(text) + " - " + token.getClasse(token.getId()) + " "
+							+ token.getLexeme() + "\n"));
+				}
+
+				textAreaMessage.append(resultCompile.toString());
+				textAreaMessage.append("Programa compilado com sucesso.");
+			} catch (LexicalError erro) {
+				textAreaMessage.append(("Erro na linha " + erro.getPosition() + " - " + erro.getMessage()));
+			}
 		}
+    	else {
+    		textAreaMessage.append("Nenhum programa para compilar.");
+    	}
+
     }//GEN-LAST:event_buttonCompileActionPerformed
 
     private void buttonOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonOpenActionPerformed
@@ -504,7 +511,8 @@ public class View extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonCutActionPerformed
 
     private void buttonTeamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonTeamActionPerformed
-        textAreaMessage.append("Componentes da equipe: Bruno G. Vigentas, Gustavo Westarb & Luciane Tedesco.\n");
+    	textAreaMessage.setText("");
+    	textAreaMessage.append("Componentes da equipe: Bruno G. Vigentas, Gustavo Westarb & Luciane Tedesco.\n");
     }//GEN-LAST:event_buttonTeamActionPerformed
 
     /**

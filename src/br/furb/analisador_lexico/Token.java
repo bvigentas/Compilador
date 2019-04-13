@@ -6,9 +6,9 @@ public class Token
     private String lexeme;
     private int position;
 
-    public String getClasse(int id) {
+	public String getClasse(int id) {
     	
-    	if (id >= 9 && id <= 30) {
+    	if (id >= 7 && id <= 28) {
     		return "palavra reservada";
     	}
     	
@@ -32,7 +32,7 @@ public class Token
     		return "constante caracter";
     	}
     	
-    	if (id >30 || id <= 50) {
+    	if (id > 28 || id <= 48) {
     		return "símbolo especial";
     	}
     	
@@ -58,15 +58,17 @@ public class Token
     	int countLine = 0;
     	
     	for (int i = 0; i < arrayLines.length; i++) {
+
+    		arrayLines[i] += "\n";
     		
     		if (arrayLines[i].length() == 0) {
-    			countLine += 1;
+    			countLine += 2;
 			}else {
 				countLine += arrayLines[i].length();
 			}
     		    		
-			if (countLine >= position) {
-				line += i;
+			if (countLine > position) {
+				line += i + 1;
 				
 				break;
 			}

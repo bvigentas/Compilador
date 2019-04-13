@@ -4,6 +4,7 @@ public class Lexico implements Constants
 {
     private int position;
     private String input;
+    private String _msgErro;
 
     public Lexico()
     {
@@ -57,12 +58,12 @@ public class Lexico implements Constants
         }
         if (endState < 0 || (endState != state && tokenForState(lastState) == -2)) {
         	
-        	String msgErro = SCANNER_ERROR[lastState];
+        	_msgErro = SCANNER_ERROR[lastState];
         	
-        	if(msgErro.contains("Símbolo inválido")){
-        		throw new LexicalError(msgErro, getRowError(start), input.charAt(start));
+        	if(_msgErro.contains("Símbolo inválido")){
+        		throw new LexicalError(_msgErro, getRowError(start), input.charAt(start));
         	}else {
-        		throw new LexicalError(msgErro, getRowError(start));
+        		throw new LexicalError(_msgErro, getRowError(start));
         	}
         	
         }
@@ -83,21 +84,18 @@ public class Lexico implements Constants
     
     private int getRowError(int positionStartError) {
     	
-    	String text = input;
+    	String text = input.replace("\t", "");
     	String[] arrayLines = text.split("\n");
     	int lineError = 0;
     	int countLine = 0;
     	
     	for (int i = 0; i < arrayLines.length; i++) {
-    		
-    		if (arrayLines[i].length() == 0) {
-    			countLine += 1;
-			}else {
-				countLine += arrayLines[i].length();
-			}
-    		    		
-			if (countLine >= positionStartError) {
-				lineError += i;
+
+    		arrayLines[i] += "\n";
+    		countLine += arrayLines[i].length();
+			    		    		
+			if (countLine > positionStartError) {
+				lineError += i + 1;
 				
 				break;
 			}
