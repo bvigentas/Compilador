@@ -1,9 +1,8 @@
 package br.furb.analisador_lexico;
 
-public interface ScannerConstants
-{
-    int[] SCANNER_TABLE_INDEXES = 
-    {
+public interface ScannerConstants {
+	
+    int[] SCANNER_TABLE_INDEXES = {
         0,
         84,
         84,
@@ -52,8 +51,7 @@ public interface ScannerConstants
         1498
     };
 
-    int[][] SCANNER_TABLE = 
-    {
+    int[][] SCANNER_TABLE = {
         {9, 1},
         {10, 1},
         {32, 1},
@@ -1565,53 +1563,51 @@ public interface ScannerConstants
     int[] SPECIAL_CASES_VALUES =
         {  7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28 };
 
-    String[] SCANNER_ERROR =
-    {
-        "Símbolo inválido.",
-        "",
-        "Símbolo inválido.",
-        "Constante string inválida.",
-        "Comentário de bloco inválido ou não finalizado.",
-        "Comentário de linha inválido",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "Constante caracter inválida.",
-        "",
-        "",
-        "",
-        "",
-        "Comentário de bloco inválido ou não finalizado.",
-        "",
-        "",
-        "",
-        "Constante real inválida.",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "Comentário de bloco inválido ou não finalizado.",
-        "",
-        "Comentário de bloco inválido ou não finalizado.",
-        "Erro identificando <ignorar>. 6",
-        "Constante real inválida.",
-        ""
-    };
-
+    String[] SCANNER_ERROR = {
+	    "SÃ­mbolo invÃ¡lido.",
+		"",
+		"SÃ­mbolo invÃ¡lido.",
+		"Constante string invÃ¡lida.",
+		"ComentÃ¡rio de bloco invÃ¡lido ou nÃ£o finalizado.",
+		"ComentÃ¡rio de linha invÃ¡lido",
+		"",
+		"",
+		"",
+		"",
+		"",
+		"",
+		"",
+		"",
+		"",
+		"",
+		"",
+		"",
+		"",
+		"",
+		"",
+		"",
+		"Constante caracter invÃ¡lida.",
+		"",
+		"",
+		"",
+		"",
+		"ComentÃ¡rio de bloco invÃ¡lido ou nÃ£o finalizado.",
+		"",
+		"",
+		"",
+		"Constante real invÃ¡lida.",
+		"",
+		"",
+		"",
+		"",
+		"",
+		"",
+		"",
+		"ComentÃ¡rio de bloco invÃ¡lido ou nÃ£o finalizado.",
+		"",
+		"ComentÃ¡rio de bloco invÃ¡lido ou nÃ£o finalizado.",
+		"Erro identificando <ignorar>. 6",
+		"Constante real invÃ¡lida.",
+		""
+	};
 }
