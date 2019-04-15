@@ -1606,7 +1606,7 @@ public interface ScannerConstants {
 		"Comentário de bloco inválido ou não finalizado.",
 		"",
 		"Comentário de bloco inválido ou não finalizado.",
-		"Erro identificando <ignorar>. 6",
+		"Comentário de bloco inválido ou não finalizado.",
 		"Constante real inválida.",
 		""
 	};
