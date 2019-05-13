@@ -1,0 +1,188 @@
+#Options
+GenerateScanner = true
+GenerateParser = true
+Language = Java
+ScannerName = Lexico
+ParserName = Sintatico
+SemanticName = Semantico
+Package = br.furb.analisador_lexico
+ScannerCaseSensitive = true
+ScannerTable = Compact
+Input = Stream
+Parser = LL
+#RegularDefinitions
+mai: [A-Z]
+min:[a-z]
+dig:[0-9]
+dig_1_9: [1-9]
+letra: {mai}|{min}
+comentario_bloco: #\|[^#\|]((#+[^#\|])*|(\|?[^#\|])*)*\|#
+comentario_linha: &&[^\n]*
+#Tokens
+//Identificador
+
+id: {mai}((_|{min}|{dig}){mai}?)*|{min}({mai}?(_|{min}|{dig}))*{mai}?
+
+
+//COnstante Inteira
+
+constante_inteira: {dig_1_9}{dig}*|0
+
+//Constante real
+constante_real: ({dig_1_9}+{dig}*)\.({dig}*{dig_1_9}|0)
+
+//Contransten string
+constante_stirng: \"[^\n\"\\]*\"
+
+//Constante caracter
+constante_caracter: \\(s|n|t)
+
+//Palavras reservadas
+
+and = id: "and"
+begin = id: "begin"
+bool = id: "bool"
+char = id: "char"
+end = id: "end"
+false = id: "false"
+float = id: "float"
+forward = id: "forward"
+ifFalseDo = id: "ifFalseDo"
+ifTrueDo = id: "ifTrueDo"
+int = id: "int"
+main = id: "main"
+module = id: "module"
+not = id: "not"
+or = id: "or"
+read = id: "read"
+string = id: "string"
+true = id: "true"
+void = id: "void"
+whileFalseDo = id: "whileFalseDo"
+whileTrueDo = id: "whileTrueDo"
+write = id: "write"
+
+//Simbolos especiais
+"("
+")"
+"=="
+"!="
+"<"
+"<="
+">"
+">="
+"+"
+"-"
+"*"
+"/"
+","
+"."
+";"
+":"
+"="
+"+="
+"-="
+"^"
+
+//Caracteres de formatacao
+:[\s\n\t]
+
+//Ignorar comentario
+:! {comentario_bloco}
+:! {comentario_linha}
+#NonTerminals
+<programa>
+<lista_declaracao>
+<corpo>
+<lista_modulo>
+<declaracao>
+<tipo_modulo>
+<parametros_formais>
+<parametros>
+<parametro>
+<tipo>
+<lista_de_indentificadores>
+<modulo>
+<declaracao_de_variaveis>
+<lista_de_comandos>
+<lista_variaveis>
+<variaveis>
+<comando>
+<comando_atribuicao>
+<comando_entrada>
+<comando_saida>
+<comando_selecao>
+<comando_repeticao>
+<comando_retorno>
+<expressao>
+<operador_de_atribuicao>
+<lista_de_expressoes>
+<comando_selecao_false>
+<expressão>
+<lista_expressões>
+<elemento>
+<relacional>
+<operador_relacional>
+<aritmética>
+<termo>
+<fator>
+<p1>
+<li>
+<v1>
+<c1>
+<e1>
+<e2>
+<e3>
+<e4>
+<a1>
+<a2>
+<t1>
+<i1>
+<i2>
+<l1>
+#Grammar
+<programa> ::= main <lista_declaracao> <lista_modulo> begin <corpo> end;
+<lista_declaracao> ::= î| <declaracao> <lista_declaracao>;
+<declaracao> ::= forward module <tipo_modulo> id "(" <parametros_formais> ")";
+<tipo_modulo> ::= int | float | bool | char | string | void;
+<parametros> ::=  <parametro><p1> | <parametro><p1> ;
+<p1> ::= î | ";" <parametros>;
+<parametro> ::= <tipo> ":" <lista_de_indentificadores>;
+<tipo> ::= int | float | char | string | bool;
+<lista_de_indentificadores> ::= id<l1> | id<l1> <lista_de_indentificadores>;
+<l1> ::= î | ",";
+<lista_modulo> ::= î| <modulo> <lista_modulo>;
+<modulo> ::= module id begin <corpo> end;
+<corpo> ::= <declaracao_de_variaveis> <lista_de_comandos>;
+<declaracao_de_variaveis> ::= î | <lista_variaveis> ;
+<lista_variaveis> ::= <variaveis>"."<v1> | <variaveis>"." <v1>;
+<v1> ::= î | <lista_variaveis>;  
+<variaveis> ::= <tipo> ":" <lista_de_indentificadores>;
+<lista_de_comandos> ::= <comando>"."<c1> | <comando>"." <c1>;
+<c1> ::= î | <lista_de_comandos>;
+<comando> ::= <comando_atribuicao> | <comando_entrada> | <comando_saida> | <comando_selecao> | <comando_repeticao> |<comando_retorno>;
+<comando_atribuicao> ::= id <operador_de_atribuicao> <expressao>;
+<operador_de_atribuicao> ::= "=" | "+=" | "-=" ;
+<comando_entrada> ::= read "(" <lista_de_indentificadores> ")";
+<comando_saida> ::= write "(" <lista_de_expressoes> ")";
+<lista_de_expressoes> ::= <expressao><e1> | <expressao><e1>;
+<e1> ::= î | "," <lista_de_expressoes>;
+<comando_selecao> ::= "(" <expressao> ")" ifTrueDo <lista_de_comandos> <comando_selecao_false> end;
+<comando_selecao_false> ::= î | ifFalseDo <lista_de_comandos>;
+<comando_repeticao> ::= "(" <expressao> ")" <e2> | "(" <expressao> ")" <e2> ;
+<e2> ::= whileTrueDo <lista_de_comandos> end | whileFalseDo <lista_de_comandos> end;
+<comando_retorno> ::=  "^" <expressao>;
+<parametros_formais> ::= î | <parametros>;
+<expressao> ::= <expressao><e3> | <elemento>;
+<e3> ::= and <elemento> | or <elemento>;
+<elemento> ::=  <relacional> | true | false | not <elemento>;
+<relacional> ::=  <aritmética> <a1> | <aritmética> <a1>;
+<a1> ::= <operador_relacional> <aritmética> | î;
+<operador_relacional> ::= "==" | "!=" | "<" | "<=" | ">" | ">=";
+<aritmética> ::= <aritmética>  <a2> | <aritmética> <a2>  | <termo>;
+<a2> ::= "+" <termo> | "-" <termo>;
+<termo> ::= <termo> <t1> | <termo> <t1> | <fator>;
+<t1> ::= "*" <fator> | "/" <fator>;
+<fator> ::=  id <i1> | id <i1> | id <i1> | constante_inteira | constante_real | constante_caracter | constante_stirng | "(" <expressao> ")" | "+" <fator> | "-" <fator>;
+<i1> ::= î |  "(" <i2> | "(" <i2> ;
+<i2> ::= ")" | <lista_expressões> ")";
