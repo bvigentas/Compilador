@@ -102,6 +102,7 @@ write = id: "write"
 <parametro>
 <tipo>
 <lista_de_indentificadores>
+<lista_de_indentificadores1>
 <modulo>
 <declaracao_de_variaveis>
 <lista_de_comandos>
@@ -143,36 +144,37 @@ write = id: "write"
 <i1>
 <i2>
 <l1>
+<comando1>
 #Grammar
 <programa> ::= main <lista_declaracao> <lista_modulo> begin <corpo> end;
 <lista_declaracao> ::= î| <declaracao> <lista_declaracao>;
 <declaracao> ::= forward module <tipo_modulo> id "(" <parametros_formais> ")";
 <tipo_modulo> ::= int | float | bool | char | string | void;
-<parametros> ::=  <parametro><p1> | <parametro><p1> ;
+<parametros> ::=  <parametro><p1>;
 <p1> ::= î | ";" <parametros>;
 <parametro> ::= <tipo> ":" <lista_de_indentificadores>;
 <tipo> ::= int | float | char | string | bool;
-<lista_de_indentificadores> ::= id<l1> | id<l1> <lista_de_indentificadores>;
+<lista_de_indentificadores> ::= id <l1> <lista_de_indentificadores1>;
+<lista_de_indentificadores1>::= <lista_de_indentificadores> | î;
 <l1> ::= î | ",";
 <lista_modulo> ::= î| <modulo> <lista_modulo>;
 <modulo> ::= module id begin <corpo> end;
 <corpo> ::= <declaracao_de_variaveis> <lista_de_comandos>;
 <declaracao_de_variaveis> ::= î | <lista_variaveis> ;
-<lista_variaveis> ::= <variaveis>"."<v1> | <variaveis>"." <v1>;
+<lista_variaveis> ::= <variaveis>"."<v1>;
 <v1> ::= î | <lista_variaveis>;  
 <variaveis> ::= <tipo> ":" <lista_de_indentificadores>;
-<lista_de_comandos> ::= <comando>"."<c1> | <comando>"." <c1>;
+<lista_de_comandos> ::= <comando>"."<c1>;
 <c1> ::= î | <lista_de_comandos>;
-<comando> ::= <comando_atribuicao> | <comando_entrada> | <comando_saida> | <comando_selecao> | <comando_repeticao> |<comando_retorno>;
+<comando> ::= <comando_atribuicao> | <comando_entrada> | <comando_saida> | "(" <expressao> ")" <comando1> | <comando_retorno>;
+<comando1>::= ifTrueDo <lista_de_comandos> <comando_selecao_false> end | <e2>;
 <comando_atribuicao> ::= id <operador_de_atribuicao> <expressao>;
 <operador_de_atribuicao> ::= "=" | "+=" | "-=" ;
 <comando_entrada> ::= read "(" <lista_de_indentificadores> ")";
 <comando_saida> ::= write "(" <lista_de_expressoes> ")";
-<lista_de_expressoes> ::= <expressao><e1> | <expressao><e1>;
+<lista_de_expressoes> ::= <expressao><e1>;
 <e1> ::= î | "," <lista_de_expressoes>;
-<comando_selecao> ::= "(" <expressao> ")" ifTrueDo <lista_de_comandos> <comando_selecao_false> end;
 <comando_selecao_false> ::= î | ifFalseDo <lista_de_comandos>;
-<comando_repeticao> ::= "(" <expressao> ")" <e2> | "(" <expressao> ")" <e2> ;
 <e2> ::= whileTrueDo <lista_de_comandos> end | whileFalseDo <lista_de_comandos> end;
 <comando_retorno> ::=  "^" <expressao>;
 <parametros_formais> ::= î | <parametros>;
@@ -180,7 +182,7 @@ write = id: "write"
 <exp> ::= î | <e3><exp> | <expressao>;
 <e3> ::= and <elemento> | or <elemento>;
 <elemento> ::=  <relacional> | true | false | not <elemento>;
-<relacional> ::=  <aritmética> <a1> | <aritmética> <a1>;
+<relacional> ::=  <aritmética> <a1>;
 <a1> ::= <operador_relacional> <aritmética> | î;
 <operador_relacional> ::= "==" | "!=" | "<" | "<=" | ">" | ">=";
 <aritmética> ::= <termo><arit>;
@@ -189,6 +191,6 @@ write = id: "write"
 <termo> ::= <fator><ter>;
 <ter> ::= î | <t1><ter>;
 <t1> ::= "*" <fator> | "/" <fator>;
-<fator> ::=  id <i1> | id <i1> | id <i1> | constante_inteira | constante_real | constante_caracter | constante_stirng | "(" <expressao> ")" | "+" <fator> | "-" <fator>;
-<i1> ::= î |  "(" <i2> | "(" <i2> ;
+<fator> ::=  id <i1> | constante_inteira | constante_real | constante_caracter | constante_stirng | "(" <expressao> ")" | "+" <fator> | "-" <fator>;
+<i1> ::= î |  "(" <i2>;
 <i2> ::= ")" | <lista_expressões> ")";
