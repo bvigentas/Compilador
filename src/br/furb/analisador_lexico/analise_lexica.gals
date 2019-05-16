@@ -115,6 +115,7 @@ write = id: "write"
 <comando_repeticao>
 <comando_retorno>
 <expressao>
+<exp>
 <operador_de_atribuicao>
 <lista_de_expressoes>
 <comando_selecao_false>
@@ -124,7 +125,9 @@ write = id: "write"
 <relacional>
 <operador_relacional>
 <aritmética>
+<arit>
 <termo>
+<ter>
 <fator>
 <p1>
 <li>
@@ -173,15 +176,18 @@ write = id: "write"
 <e2> ::= whileTrueDo <lista_de_comandos> end | whileFalseDo <lista_de_comandos> end;
 <comando_retorno> ::=  "^" <expressao>;
 <parametros_formais> ::= î | <parametros>;
-<expressao> ::= <expressao><e3> | <elemento>;
+<expressao> ::= <elemento><exp>;
+<exp> ::= î | <e3><exp> | <expressao>;
 <e3> ::= and <elemento> | or <elemento>;
 <elemento> ::=  <relacional> | true | false | not <elemento>;
 <relacional> ::=  <aritmética> <a1> | <aritmética> <a1>;
 <a1> ::= <operador_relacional> <aritmética> | î;
 <operador_relacional> ::= "==" | "!=" | "<" | "<=" | ">" | ">=";
-<aritmética> ::= <aritmética>  <a2> | <aritmética> <a2>  | <termo>;
+<aritmética> ::= <termo><arit>;
+<arit> ::= î | <a2><arit>;
 <a2> ::= "+" <termo> | "-" <termo>;
-<termo> ::= <termo> <t1> | <termo> <t1> | <fator>;
+<termo> ::= <fator><ter>;
+<ter> ::= î | <t1><ter>;
 <t1> ::= "*" <fator> | "/" <fator>;
 <fator> ::=  id <i1> | id <i1> | id <i1> | constante_inteira | constante_real | constante_caracter | constante_stirng | "(" <expressao> ")" | "+" <fator> | "-" <fator>;
 <i1> ::= î |  "(" <i2> | "(" <i2> ;
