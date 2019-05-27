@@ -8,7 +8,7 @@ SemanticName = Semantico
 Package = br.furb.analisador_lexico
 ScannerCaseSensitive = true
 ScannerTable = Compact
-Input = Stream
+Input = String
 Parser = LL
 #RegularDefinitions
 mai: [A-Z]
@@ -112,16 +112,12 @@ write = id: "write"
 <comando_atribuicao>
 <comando_entrada>
 <comando_saida>
-<comando_selecao>
-<comando_repeticao>
 <comando_retorno>
 <expressao>
 <exp>
 <operador_de_atribuicao>
 <lista_de_expressoes>
 <comando_selecao_false>
-<expressão>
-<lista_expressões>
 <elemento>
 <relacional>
 <operador_relacional>
@@ -131,19 +127,16 @@ write = id: "write"
 <ter>
 <fator>
 <p1>
-<li>
 <v1>
 <c1>
 <e1>
 <e2>
 <e3>
-<e4>
 <a1>
 <a2>
 <t1>
 <i1>
 <i2>
-<l1>
 <comando1>
 #Grammar
 <programa> ::= main <lista_declaracao> <lista_modulo> begin <corpo> end;
@@ -154,9 +147,8 @@ write = id: "write"
 <p1> ::= î | ";" <parametros>;
 <parametro> ::= <tipo> ":" <lista_de_indentificadores>;
 <tipo> ::= int | float | char | string | bool;
-<lista_de_indentificadores> ::= id <l1> <lista_de_indentificadores1>;
-<lista_de_indentificadores1>::= <lista_de_indentificadores> | î;
-<l1> ::= î | ",";
+<lista_de_indentificadores> ::= id <lista_de_indentificadores1>;
+<lista_de_indentificadores1>::= "," <lista_de_indentificadores> | î;
 <lista_modulo> ::= î| <modulo> <lista_modulo>;
 <modulo> ::= module id begin <corpo> end;
 <corpo> ::= <declaracao_de_variaveis> <lista_de_comandos>;
@@ -179,7 +171,7 @@ write = id: "write"
 <comando_retorno> ::=  "^" <expressao>;
 <parametros_formais> ::= î | <parametros>;
 <expressao> ::= <elemento><exp>;
-<exp> ::= î | <e3><exp> | <expressao>;
+<exp> ::= î | <e3><exp>;
 <e3> ::= and <elemento> | or <elemento>;
 <elemento> ::=  <relacional> | true | false | not <elemento>;
 <relacional> ::=  <aritmética> <a1>;
@@ -193,4 +185,6 @@ write = id: "write"
 <t1> ::= "*" <fator> | "/" <fator>;
 <fator> ::=  id <i1> | constante_inteira | constante_real | constante_caracter | constante_stirng | "(" <expressao> ")" | "+" <fator> | "-" <fator>;
 <i1> ::= î |  "(" <i2>;
-<i2> ::= ")" | <lista_expressões> ")";
+<i2> ::= ")" | <lista_de_expressoes> ")";
+
+

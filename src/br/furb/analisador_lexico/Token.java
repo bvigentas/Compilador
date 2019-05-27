@@ -32,7 +32,7 @@ public class Token {
 		}
 
 		if (id > 28 || id <= 48) {
-			return "sÃ­mbolo especial";
+			return "símbolo especial";
 		}
 
 		return "";

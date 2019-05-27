@@ -1,10 +1,10 @@
 package br.furb.analisador_lexico;
 
-public interface Constants extends ScannerConstants {
-	int EPSILON = 0;
-	int DOLLAR = 1;
+public interface Constants extends ScannerConstants, ParserConstants {
+    int EPSILON  = 0;
+    int DOLLAR   = 1;
 
-	int t_id = 2;
+    int t_id = 2;
 	int t_constante_inteira = 3;
 	int t_constante_real = 4;
 	int t_constante_stirng = 5;
@@ -51,4 +51,5 @@ public interface Constants extends ScannerConstants {
 	int t_TOKEN_46 = 46; // "+="
 	int t_TOKEN_47 = 47; // "-="
 	int t_TOKEN_48 = 48; // "^"
+
 }

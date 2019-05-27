@@ -51,7 +51,7 @@ public class Lexico implements Constants {
 
 			_msgErro = SCANNER_ERROR[lastState];
 
-			if (_msgErro.contains("S√≠mbolo inv√°lido")) {
+			if (_msgErro.contains("SÌmbolo inv·lido")) {
 				throw new LexicalError(_msgErro, getRowError(start), input.charAt(start));
 			} else {
 				throw new LexicalError(_msgErro, getRowError(start));
