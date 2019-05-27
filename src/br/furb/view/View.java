@@ -19,8 +19,6 @@ import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import br.furb.analisador_lexico.Lexico;
-import br.furb.analisador_lexico.Token;
 import br.furb.analisador_lexico.*;
 
 /**
@@ -451,9 +449,13 @@ public class View extends javax.swing.JFrame {
     	
     	if (!text.isEmpty() && !text.matches("^[\\n|\\t|\\s]*$")) {
 			Lexico lexico = new Lexico();
+			Sintatico sintatico = new Sintatico();
+            Semantico semantico = new Semantico();
 			lexico.setInput(text);
 
 			try {
+				 sintatico.parse(lexico, semantico);
+				
 				Token token = null;
 
 				while ((token = lexico.nextToken()) != null) {
@@ -465,6 +467,12 @@ public class View extends javax.swing.JFrame {
 				textAreaMessage.append("Programa compilado com sucesso.");
 			} catch (LexicalError erro) {
 				textAreaMessage.append(("Erro na linha " + erro.getPosition() + " - " + erro.getMessage()));
+			} catch (SyntaticError e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SemanticError e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
     	else {
@@ -482,6 +490,7 @@ public class View extends javax.swing.JFrame {
             File file = fileChooser.getSelectedFile();
             String content;
             String absolutePath = file.getAbsolutePath();
+            
             try {
                 content = Files.readAllLines(Paths.get(absolutePath)).stream().collect(Collectors.joining("\r\n"));
 
@@ -491,7 +500,7 @@ public class View extends javax.swing.JFrame {
 
                 currentFile = file;
                 isNewFile = false;
-
+                
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(this, "Erro ao abrir arquivo: " + e.getMessage());
             }
