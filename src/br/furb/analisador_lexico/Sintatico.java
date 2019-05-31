@@ -2,6 +2,8 @@ package br.furb.analisador_lexico;
 
 import java.util.Stack;
 
+import br.furb.utils.StringManipulationUtil;
+
 public class Sintatico implements Constants
 {
     private Stack stack = new Stack();
@@ -30,8 +32,9 @@ public class Sintatico implements Constants
         if (currentToken == null)
         {
             int pos = 0;
-            if (previousToken != null)
+            if (previousToken != null) {
                 pos = previousToken.getPosition()+previousToken.getLexeme().length();
+            }
 
             currentToken = new Token(DOLLAR, "$", pos);
         }
@@ -58,7 +61,7 @@ public class Sintatico implements Constants
             }
             else
             {
-                throw new SyntaticError(PARSER_ERROR[x], currentToken.getPosition());
+                throw new SyntaticError(PARSER_ERROR[x], StringManipulationUtil.getRowError(currentToken.getPosition(), scanner.getInput()));
             }
         }
         else if (isNonTerminal(x))
@@ -66,7 +69,7 @@ public class Sintatico implements Constants
             if (pushProduction(x, a))
                 return false;
             else
-                throw new SyntaticError(PARSER_ERROR[x], currentToken.getPosition());
+                throw new SyntaticError(PARSER_ERROR[x], StringManipulationUtil.getRowError(currentToken.getPosition(), scanner.getInput()));
         }
         else // isSemanticAction(x)
         {
