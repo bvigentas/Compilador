@@ -18,6 +18,10 @@ public class Lexico implements Constants {
 		setPosition(0);
 	}
 
+	public String getInput() {
+		return input;
+	}
+
 	public void setPosition(int pos) {
 		position = pos;
 	}
