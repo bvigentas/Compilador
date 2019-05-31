@@ -1,6 +1,10 @@
 package br.furb.analisador_lexico;
 
 public class SemanticError extends AnalysisError {
+	public SemanticError(String msg, int position, char character) {
+		super(msg, position, character);
+	}
+	
 	public SemanticError(String msg, int position) {
 		super(msg, position);
 	}

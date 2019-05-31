@@ -458,21 +458,19 @@ public class View extends javax.swing.JFrame {
 				
 				Token token = null;
 
-				while ((token = lexico.nextToken()) != null) {
-					resultCompile.append(("Linha " + token.getRow(text) + " - " + token.getClasse(token.getId()) + " "
-							+ token.getLexeme() + "\n"));
-				}
-
-				textAreaMessage.append(resultCompile.toString());
+//				while ((token = lexico.nextToken()) != null) {
+//					resultCompile.append(("Linha " + token.getRow(text) + " - " + token.getClasse(token.getId()) + " "
+//							+ token.getLexeme() + "\n"));
+//				}
+//
+//				textAreaMessage.append(resultCompile.toString());
 				textAreaMessage.append("Programa compilado com sucesso.");
 			} catch (LexicalError erro) {
 				textAreaMessage.append(("Erro na linha " + erro.getPosition() + " - " + erro.getMessage()));
-			} catch (SyntaticError e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (SemanticError e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (SyntaticError erro) {
+				textAreaMessage.append("Erro na linha " + erro.getPosition() + " - " + erro.getMessage());
+			} catch (SemanticError erro) {
+				textAreaMessage.append("Erro na linha " + erro.getPosition() + " - " + erro.getMessage());
 			}
 		}
     	else {
