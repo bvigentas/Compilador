@@ -26,7 +26,7 @@ public class AnalysisError extends Exception {
 		this.position = position;
 	}
 
-	public AnalysisError(String msgEncontrado, int position, char character, String msgEsperado) {
+	public AnalysisError(String msgEncontrado, int position, String character, String msgEsperado) {
 		super(msgEncontrado + " " + character + " " + msgEsperado);
 		this.position = position;
 	}
