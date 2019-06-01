@@ -19,7 +19,14 @@ import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import br.furb.analisador_lexico.*;
+import br.furb.common.*;
+import br.furb.lexico.LexicalError;
+import br.furb.lexico.Lexico;
+import br.furb.semantico.SemanticError;
+import br.furb.semantico.Semantico;
+import br.furb.sintatico.Sintatico;
+import br.furb.sintatico.SyntaticError;
+import br.furb.utils.NumberedBorder;
 
 /**
  *

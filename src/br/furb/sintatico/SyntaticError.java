@@ -1,4 +1,6 @@
-package br.furb.analisador_lexico;
+package br.furb.sintatico;
+
+import br.furb.common.AnalysisError;
 
 public class SyntaticError extends AnalysisError {
 	

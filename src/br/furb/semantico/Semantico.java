@@ -1,4 +1,7 @@
-package br.furb.analisador_lexico;
+package br.furb.semantico;
+
+import br.furb.common.Constants;
+import br.furb.common.Token;
 
 public class Semantico implements Constants
 {

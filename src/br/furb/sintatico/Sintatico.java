@@ -1,7 +1,13 @@
-package br.furb.analisador_lexico;
+package br.furb.sintatico;
 
 import java.util.Stack;
 
+import br.furb.common.Constants;
+import br.furb.common.Token;
+import br.furb.lexico.LexicalError;
+import br.furb.lexico.Lexico;
+import br.furb.semantico.SemanticError;
+import br.furb.semantico.Semantico;
 import br.furb.utils.StringManipulationUtil;
 
 public class Sintatico implements Constants
@@ -61,7 +67,7 @@ public class Sintatico implements Constants
             }
             else
             {
-                throw new SyntaticError("Encontrado ", 
+                throw new SyntaticError("Encontrado", 
                 		StringManipulationUtil.getRowError(currentToken.getPosition(), scanner.getInput()),
                 		currentToken.getLexeme(),
                 		PARSER_ERROR[x]);
@@ -72,7 +78,10 @@ public class Sintatico implements Constants
             if (pushProduction(x, a))
                 return false;
             else
-                throw new SyntaticError(PARSER_ERROR[x], StringManipulationUtil.getRowError(currentToken.getPosition(), scanner.getInput()));
+                throw new SyntaticError("Encontrado", 
+                		StringManipulationUtil.getRowError(currentToken.getPosition(), scanner.getInput()),
+                		currentToken.getLexeme(),
+                		PARSER_ERROR[x]);
         }
         else // isSemanticAction(x)
         {

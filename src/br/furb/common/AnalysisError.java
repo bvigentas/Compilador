@@ -1,4 +1,4 @@
-package br.furb.analisador_lexico;
+package br.furb.common;
 
 public class AnalysisError extends Exception {
     private int position;

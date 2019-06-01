@@ -1,4 +1,6 @@
-package br.furb.analisador_lexico;
+package br.furb.semantico;
+
+import br.furb.common.AnalysisError;
 
 public class SemanticError extends AnalysisError {
 	public SemanticError(String msg, int position, char character) {
