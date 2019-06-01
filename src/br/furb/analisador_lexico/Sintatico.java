@@ -61,7 +61,10 @@ public class Sintatico implements Constants
             }
             else
             {
-                throw new SyntaticError(PARSER_ERROR[x], StringManipulationUtil.getRowError(currentToken.getPosition(), scanner.getInput()));
+                throw new SyntaticError("Encontrado ", 
+                		StringManipulationUtil.getRowError(currentToken.getPosition(), scanner.getInput()),
+                		currentToken.getLexeme(),
+                		PARSER_ERROR[x]);
             }
         }
         else if (isNonTerminal(x))
