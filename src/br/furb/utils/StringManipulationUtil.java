@@ -4,8 +4,7 @@ public class StringManipulationUtil {
 	
 	public static int getRowError(int positionStartError, String input) {
 
-		String text = input.replace("\t", "");
-		String[] arrayLines = text.split("\n");
+		String[] arrayLines = input.split("\n");
 		int lineError = 0;
 		int countLine = 0;
 

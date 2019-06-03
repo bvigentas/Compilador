@@ -2,6 +2,7 @@ package br.furb.lexico;
 
 import br.furb.common.Constants;
 import br.furb.common.Token;
+import br.furb.utils.StringManipulationUtil;
 
 public class Lexico implements Constants {
 	private int position;
@@ -59,9 +60,9 @@ public class Lexico implements Constants {
 			_msgErro = SCANNER_ERROR[lastState];
 
 			if (_msgErro.contains("Símbolo inválido")) {
-				throw new LexicalError(_msgErro, getRowError(start), input.charAt(start));
+				throw new LexicalError(_msgErro, StringManipulationUtil.getRowError(start, input), input.charAt(start));
 			} else {
-				throw new LexicalError(_msgErro, getRowError(start));
+				throw new LexicalError(_msgErro, StringManipulationUtil.getRowError(start, input));
 			}
 
 		}
@@ -77,28 +78,6 @@ public class Lexico implements Constants {
 			token = lookupToken(token, lexeme);
 			return new Token(token, lexeme, start);
 		}
-	}
-
-	private int getRowError(int positionStartError) {
-
-		String text = input.replace("\t", "");
-		String[] arrayLines = text.split("\n");
-		int lineError = 0;
-		int countLine = 0;
-
-		for (int i = 0; i < arrayLines.length; i++) {
-
-			arrayLines[i] += "\n";
-			countLine += arrayLines[i].length();
-
-			if (countLine > positionStartError) {
-				lineError += i + 1;
-
-				break;
-			}
-		}
-
-		return lineError == 0 ? lineError + 1 : lineError;
 	}
 
 	private int nextState(char c, int state) {

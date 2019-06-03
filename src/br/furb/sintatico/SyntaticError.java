@@ -5,7 +5,7 @@ import br.furb.common.AnalysisError;
 public class SyntaticError extends AnalysisError {
 	
 	public SyntaticError(String msgEncontrado, int position, String character, String msgEsperado) {
-		super(msgEncontrado + " " + character + " " + msgEsperado, position);
+		super(msgEncontrado + " " + ("$".equalsIgnoreCase(character) ? "fim de arquivo" : character) + " " + msgEsperado, position);
 	}
 	
 	public SyntaticError(String msg, int position) {
