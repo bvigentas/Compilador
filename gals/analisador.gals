@@ -8,7 +8,7 @@ SemanticName = Semantico
 Package = br.furb.analisador_lexico
 ScannerCaseSensitive = true
 ScannerTable = Compact
-Input = String
+Input = Stream
 Parser = LL
 #RegularDefinitions
 mai: [A-Z]
@@ -139,7 +139,7 @@ write = id: "write"
 <i2>
 <comando1>
 #Grammar
-<programa> ::= main <lista_declaracao> <lista_modulo> begin <corpo> end;
+<programa> ::= #15 main <lista_declaracao> <lista_modulo> #16 begin <corpo> end #17;
 <lista_declaracao> ::= î| <declaracao> <lista_declaracao>;
 <declaracao> ::= forward module <tipo_modulo> id "(" <parametros_formais> ")";
 <tipo_modulo> ::= int | float | bool | char | string | void;
@@ -164,7 +164,7 @@ write = id: "write"
 <operador_de_atribuicao> ::= "=" | "+=" | "-=" ;
 <comando_entrada> ::= read "(" <lista_de_indentificadores> ")";
 <comando_saida> ::= write "(" <lista_de_expressoes> ")";
-<lista_de_expressoes> ::= <expressao><e1>;
+<lista_de_expressoes> ::= <expressao> #14 <e1>;
 <e1> ::= î | "," <lista_de_expressoes>;
 <comando_selecao_false> ::= î | ifFalseDo <lista_de_comandos>;
 <e2> ::= whileTrueDo <lista_de_comandos> end | whileFalseDo <lista_de_comandos> end;
@@ -172,18 +172,18 @@ write = id: "write"
 <parametros_formais> ::= î | <parametros>;
 <expressao> ::= <elemento><exp>;
 <exp> ::= î | <e3><exp>;
-<e3> ::= and <elemento> | or <elemento>;
-<elemento> ::=  <relacional> | true | false | not <elemento>;
+<e3> ::= and <elemento> #18 | or <elemento> #19;
+<elemento> ::=  <relacional> | true #11 | false #12 | not <elemento> #13;
 <relacional> ::=  <aritmética> <a1>;
-<a1> ::= <operador_relacional> <aritmética> | î;
+<a1> ::= <operador_relacional> #9 <aritmética> #10 | î;
 <operador_relacional> ::= "==" | "!=" | "<" | "<=" | ">" | ">=";
 <aritmética> ::= <termo><arit>;
 <arit> ::= î | <a2><arit>;
-<a2> ::= "+" <termo> | "-" <termo>;
+<a2> ::= "+" <termo> #1 | "-" <termo> #2;
 <termo> ::= <fator><ter>;
 <ter> ::= î | <t1><ter>;
-<t1> ::= "*" <fator> | "/" <fator>;
-<fator> ::=  id <i1> | constante_inteira | constante_real | constante_caracter | constante_stirng | "(" <expressao> ")" | "+" <fator> | "-" <fator>;
+<t1> ::= "*" <fator> #3 | "/" <fator> #4;
+<fator> ::=  id <i1> | constante_inteira #5 | constante_real #6 | constante_caracter #20 | constante_stirng #21 | "(" <expressao> ")" | "+" <fator> #7 | "-" <fator> #8;
 <i1> ::= î |  "(" <i2>;
 <i2> ::= ")" | <lista_de_expressoes> ")";
 
