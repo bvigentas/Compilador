@@ -1567,7 +1567,7 @@ public interface ScannerConstants
 
     String[] SCANNER_ERROR =
     {
-    		"Símbolo inválido.",
+        "Símbolo inválido.",
     		"",
     		"Símbolo inválido.",
     		"Constante string inválida.",
