@@ -1,7 +1,9 @@
 package br.furb.semantico;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
@@ -14,6 +16,8 @@ public class Semantico implements Constants {
 		String tipo = "";
 		String operadorRelacional = "";
 		List<String> codigo = new ArrayList<String>();
+		Map<String, String> ts = new HashMap<String, String>();
+		List<String> listaID = new ArrayList<String>();
 		Queue<String> pilhaDeTipos = new PriorityQueue<String>();
 
 		String tipo1 = "";
@@ -179,22 +183,93 @@ public class Semantico implements Constants {
 				//TODO: Implementar acao 21
 				break;
 			case 30:
-				//TODO: Implementar acao 30
+				if (token.getLexeme().equals("int")) {
+					tipo = "int64";
+				}
+				else if(token.getLexeme().equals("real")) {
+					tipo = "float64";
+				}
 				break;
 			case 31:
-				//TODO: Implementar acao 31
+				
+				for (String id : listaID) {
+					if (ts.containsKey(id)) {
+						throw new SemanticError(id + " já declarado");
+					}
+					
+					ts.put(id, tipo);
+					codigo.add(".locals("+ tipo + " " + id + ")");					
+				}
+				
+				listaID = new ArrayList<String>();
+				
 				break;
 			case 32:
-				//TODO: Implementar acao 32
+				
+				listaID.add(token.getLexeme());
+				
 				break;
 			case 33:
-				//TODO: Implementar acao 33
+				
+				String id = token.getLexeme();
+				
+				if (!ts.containsKey(id)) {
+					throw new SemanticError(id + " não declarado");
+				}
+				
+				String tipoID = ts.get(id);
+				pilhaDeTipos.add(tipoID);
+				codigo.add("ldloc " + id);
+				
+				if (tipoID.equals("int64")) {
+					codigo.add("conv.r8");
+				}
+				
 				break;
 			case 34:
-				//TODO: Implementar acao 34
+				
+				String idCase34 = listaID.get(0);
+				listaID.remove(0);
+				
+				if (!ts.containsKey(idCase34)) {
+					throw new SemanticError(idCase34 + " não declarado");
+				}
+				
+				String tipoIDCase34 = ts.get(idCase34);
+				String tipoExp = pilhaDeTipos.poll();
+				if (!tipoIDCase34.equals(tipoExp)) {
+					throw new SemanticError("TENHO QUE OLHAR COM CALMA ESSA EXCEÇÃO");
+				}
+				if (tipoIDCase34.equals("int64")) {
+					codigo.add("conv.r8");
+				}
+				
 				break;
 			case 35:
-				//TODO: Implementar acao 35
+				
+				for(String idCase35 : listaID) {
+					if (!ts.containsKey(idCase35)) {
+						//throw new SemanticError(idCase34 + " não declarado");
+						throw new SemanticError("TENHO QUE OLHAR COM CALMA ESSA EXCEÇÃO");
+					}
+					
+					String tipoIDCase35 = ts.get(idCase35);
+					String classe = "";
+					
+					if (tipoIDCase35.equals("int64")) {
+						classe = "Int64";
+					}else if (tipoIDCase35.equals("float64")) {
+						classe = "Double";
+					}
+					
+					codigo.add("call string [mscorlib]System.Console::ReadLine()");
+					codigo.add("call " + tipoIDCase35 + " [mscorlib]System." + classe + "::Parse(string)");
+					codigo.add("stloc " + idCase35);
+					
+				}
+				
+				listaID = new ArrayList<String>();
+				
 				break;
 			case 36:
 				//TODO: Implementar acao 36
