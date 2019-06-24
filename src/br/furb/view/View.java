@@ -123,7 +123,6 @@ public class View extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         JPanelMenu = new javax.swing.JPanel();
         buttonNew = new javax.swing.JButton();
         buttonOpen = new javax.swing.JButton();
@@ -472,6 +471,7 @@ public class View extends javax.swing.JFrame {
 //
 //				textAreaMessage.append(resultCompile.toString());
 				textAreaMessage.append("Programa compilado com sucesso.");
+				textAreaMessage.append(semantico.getCodigo().toString());
 			} catch (LexicalError erro) {
 				textAreaMessage.append(("Erro na linha " + erro.getPosition() + " - " + erro.getMessage()));
 			} catch (SyntaticError erro) {

@@ -11,14 +11,22 @@ import br.furb.common.Constants;
 import br.furb.common.Token;
 
 public class Semantico implements Constants {
+	
+	private String tipo = "";
+	private String operadorRelacional = "";
+	private List<String> codigo = new ArrayList<String>();
+	private Map<String, String> ts = new HashMap<String, String>();
+	
+	public List<String> getCodigo() {
+		return codigo;
+	}
+
+	private List<String> listaID = new ArrayList<String>();
+	private Queue<String> pilhaDeTipos = new PriorityQueue<String>();
+	
 	public void executeAction(int action, Token token) throws SemanticError {
 		System.out.println("Ação #" + action + ", Token: " + token);
-		String tipo = "";
-		String operadorRelacional = "";
-		List<String> codigo = new ArrayList<String>();
-		Map<String, String> ts = new HashMap<String, String>();
-		List<String> listaID = new ArrayList<String>();
-		Queue<String> pilhaDeTipos = new PriorityQueue<String>();
+		
 
 		String tipo1 = "";
 		String tipo2 = "";
@@ -126,17 +134,23 @@ public class Semantico implements Constants {
 						codigo.add("ceq");
 						break;
 					case "!=":
-						//TODO: Descobrir qual codigo usar no !=
-						codigo.add("");
+						codigo.add("ceq");
+						codigo.add("ldc.i4 0");
+						codigo.add("ceq");
 						break;
 					case "<=":
-						//TODO: Descobrir qual codigo usar no <=
-						codigo.add("");
+						codigo.add("cgt");
+						codigo.add("ldc.i4 0");
+						codigo.add("ceq");
 						break;
 					case ">=":
-						//TODO: Descobrir qual codigo usar no >=
-						codigo.add("");
+						codigo.add("clt");
+						codigo.add("ldc.i4 0");
+						codigo.add("ceq");
+						break;
 				}
+				
+				break;
 			case 11:
 				pilhaDeTipos.add("bool");
 				codigo.add("ldc.i4.1");
@@ -180,7 +194,10 @@ public class Semantico implements Constants {
 			case 20:
 				tipo1 = pilhaDeTipos.poll();
 			case 21:
-				//TODO: Implementar acao 21
+				
+				pilhaDeTipos.add("string");
+				codigo.add("ldstr " + token.getLexeme());
+				
 				break;
 			case 30:
 				if (token.getLexeme().equals("int")) {
@@ -237,20 +254,19 @@ public class Semantico implements Constants {
 				
 				String tipoIDCase34 = ts.get(idCase34);
 				String tipoExp = pilhaDeTipos.poll();
-				if (!tipoIDCase34.equals(tipoExp)) {
-					throw new SemanticError("TENHO QUE OLHAR COM CALMA ESSA EXCEÇÃO");
-				}
+				
 				if (tipoIDCase34.equals("int64")) {
-					codigo.add("conv.r8");
+					codigo.add("conv.i8");
 				}
+				
+				codigo.add("stloc " + idCase34);
 				
 				break;
 			case 35:
 				
 				for(String idCase35 : listaID) {
 					if (!ts.containsKey(idCase35)) {
-						//throw new SemanticError(idCase34 + " não declarado");
-						throw new SemanticError("TENHO QUE OLHAR COM CALMA ESSA EXCEÇÃO");
+						throw new SemanticError(idCase35 + " não declarado");
 					}
 					
 					String tipoIDCase35 = ts.get(idCase35);
@@ -272,7 +288,9 @@ public class Semantico implements Constants {
 				
 				break;
 			case 36:
-				//TODO: Implementar acao 36
+				
+				
+				
 				break;
 			case 37:
 				//TODO: Implementar acao 37
