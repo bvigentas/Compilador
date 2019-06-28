@@ -21,8 +21,14 @@ public class Semantico implements Constants {
 		return codigo;
 	}
 
+	public void setOperadorRelacional(String value) {
+		this.operadorRelacional = value;
+	}
+	
 	private List<String> listaID = new ArrayList<String>();
 	private Queue<String> pilhaDeTipos = new PriorityQueue<String>();
+	private Queue<String> pilhaDeRotulos = new PriorityQueue<String>();
+	private int ctLabel = 0;
 	
 	public void executeAction(int action, Token token) throws SemanticError {
 		System.out.println("Ação #" + action + ", Token: " + token);
@@ -112,7 +118,7 @@ public class Semantico implements Constants {
 				codigo.add("mul");
 				break;
 			case 9:
-				operadorRelacional = token.getLexeme();
+				setOperadorRelacional(token.getLexeme());
 				break;
 			case 10:
 				tipo1 = pilhaDeTipos.poll();
@@ -259,6 +265,12 @@ public class Semantico implements Constants {
 					codigo.add("conv.i8");
 				}
 				
+				if (operadorRelacional.equalsIgnoreCase("+=")) {
+					codigo.add("add");
+				}else if(operadorRelacional.equalsIgnoreCase("-=")) {
+					codigo.add("sub");
+				}
+				
 				codigo.add("stloc " + idCase34);
 				
 				break;
@@ -289,20 +301,39 @@ public class Semantico implements Constants {
 				break;
 			case 36:
 				
+				String idCase36 =listaID.get(0);
 				
+				if (!ts.containsKey(idCase36)) {
+					throw new SemanticError(idCase36 + " não declarado");
+				}
+				
+				setOperadorRelacional(token.getLexeme());
+				
+				if (operadorRelacional.equalsIgnoreCase("+=") || operadorRelacional.equalsIgnoreCase("-=")) {
+					codigo.add("ldloc" + idCase36);
+					codigo.add("conv.r8");
+				}
 				
 				break;
 			case 37:
-				//TODO: Implementar acao 37
+				String labelCase37 = createLabel() ;
+				codigo.add(labelCase37 + ":");
+				pilhaDeRotulos.add(labelCase37);
 				break;
 			case 38:
-				//TODO: Implementar acao 38
+				String labelCase38 = createLabel();
+				codigo.add("br false " + labelCase38);
+				pilhaDeRotulos.add(labelCase38);
 				break;
 			case 39:
 				//TODO: Implementar acao 39
 				break;
 			case 40:
-				//TODO: Implementar acao 40
+				String labelCase39 = createLabel();
+				codigo.add("br false" + labelCase39);
+				codigo.add(pilhaDeRotulos.poll() + ":");
+				pilhaDeRotulos.add(labelCase39);
+				
 				break;
 			case 41:
 				//TODO: Implementar acao 41
@@ -314,6 +345,11 @@ public class Semantico implements Constants {
 			default:
 				break;
 		}
+	}
+	
+	private String createLabel() {
+		ctLabel++;
+		return "label" + ctLabel;
 	}
 
 	private void throwSemanticException(String tipo1, String tipo2, String mensagemErro) throws SemanticError {
