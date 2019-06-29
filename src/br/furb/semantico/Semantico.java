@@ -41,7 +41,7 @@ public class Semantico implements Constants {
 			case 1:
 				tipo1 = pilhaDeTipos.poll();
 				tipo2 = pilhaDeTipos.poll();
-				throwSemanticException(tipo1, tipo2,"Tipos incompatíveis em expressão aritmética.");
+				throwSemanticException(tipo1, tipo2,"Tipo(s) incompatível(is) em expressão aritmética.");
 				if ("float64".equalsIgnoreCase(tipo1) || "float64".equalsIgnoreCase(tipo2)) {
 					pilhaDeTipos.add("float64");
 				} else {
@@ -53,7 +53,7 @@ public class Semantico implements Constants {
 				tipo1 = pilhaDeTipos.poll();
 				tipo2 = pilhaDeTipos.poll();
 	
-				throwSemanticException(tipo1, tipo2,"Tipos incompatíveis em expressão aritmética.");
+				throwSemanticException(tipo1, tipo2,"Tipo(s) incompatível(is) em expressão aritmética.");
 	
 				if ("float64".equalsIgnoreCase(tipo1) || "float64".equalsIgnoreCase(tipo2)) {
 					pilhaDeTipos.add("float64");
@@ -67,7 +67,7 @@ public class Semantico implements Constants {
 				tipo1 = pilhaDeTipos.poll();
 				tipo2 = pilhaDeTipos.poll();
 	
-				throwSemanticException(tipo1, tipo2, "Tipos incompatíveis em expressão aritmética.");
+				throwSemanticException(tipo1, tipo2, "Tipo(s) incompatível(is) em expressão aritmética.");
 	
 				if ("float64".equalsIgnoreCase(tipo1) || "float64".equalsIgnoreCase(tipo2)) {
 					pilhaDeTipos.add("float64");
@@ -81,7 +81,7 @@ public class Semantico implements Constants {
 				tipo1 = pilhaDeTipos.poll();
 				tipo2 = pilhaDeTipos.poll();
 	
-				throwSemanticException(tipo1, tipo2, "Tipos incompatíveis em expressão aritmética.");
+				throwSemanticException(tipo1, tipo2, "Tipo(s) incompatível(is) em expressão aritmética.");
 	
 				pilhaDeTipos.add("float64");
 				codigo.add("div");
@@ -102,7 +102,7 @@ public class Semantico implements Constants {
 				if ("float64".equalsIgnoreCase(tipo1) || "int64".equalsIgnoreCase(tipo1)) {
 					pilhaDeTipos.add(tipo1);
 				} else {
-					throw new SemanticError("093430u439");
+					throw new SemanticError("Tipo(s) incompatível(is) em expressão aritmética.");
 				}
 	
 				break;
@@ -112,7 +112,7 @@ public class Semantico implements Constants {
 				if ("float64".equalsIgnoreCase(tipo1) || "int64".equalsIgnoreCase(tipo1)) {
 					pilhaDeTipos.add(tipo1);
 				} else {
-					throw new SemanticError("093430u439");
+					throw new SemanticError("Tipo(s) incompatível(is) em expressão aritmética.");
 				}
 				codigo.add("ldc.i8 -1");
 				codigo.add("mul");
@@ -124,10 +124,12 @@ public class Semantico implements Constants {
 				tipo1 = pilhaDeTipos.poll();
 				tipo2 = pilhaDeTipos.poll();
 	
-				if (tipo1.equalsIgnoreCase(tipo2)) {
-					pilhaDeTipos.poll();
-				} else {
-					throw new SemanticError("Tipos incompatíveis em expressão lógica.");
+				if(tipo1.equals("string") || tipo2.equals("string")) {
+					if (tipo1.equalsIgnoreCase(tipo2)) {
+						pilhaDeTipos.poll();
+					} else {
+						throw new SemanticError("Tipos incompatíveis em expressão relacional.");
+					}
 				}
 				switch (operadorRelacional) {
 					case ">":
@@ -170,7 +172,7 @@ public class Semantico implements Constants {
 				if (tipo1.equalsIgnoreCase("bool")) {
 					pilhaDeTipos.add("bool");
 				} else {
-					throw new SemanticError("093430u439");
+					throw new SemanticError("Tipo(s) incompatível(is) em expressão lógica.");
 				}
 				codigo.add("ldc.i4.1");
 				codigo.add("xor");
@@ -197,6 +199,31 @@ public class Semantico implements Constants {
 			case 17:
 				codigo.add("ret" + "\n}" + "\n}");
 				break;
+			case 18:
+
+				
+				tipo1 = pilhaDeTipos.poll();
+				if (tipo1.equalsIgnoreCase("bool")) {
+					pilhaDeTipos.add("bool");
+				} else {
+					throw new SemanticError("Tipo(s) incompatível(is) em expressão lógica.");
+				}
+				codigo.add("ldc.i4.1");
+				codigo.add("and");
+				
+				break;
+			case 19:
+				
+				tipo1 = pilhaDeTipos.poll();
+				if (tipo1.equalsIgnoreCase("bool")) {
+					pilhaDeTipos.add("bool");
+				} else {
+					throw new SemanticError("Tipo(s) incompatível(is) em expressão lógica.");
+				}
+				codigo.add("ldc.i4.1");
+				codigo.add("or");
+				
+				break;
 			case 20:
 				tipo1 = pilhaDeTipos.poll();
 			case 21:
@@ -209,7 +236,7 @@ public class Semantico implements Constants {
 				if (token.getLexeme().equals("int")) {
 					tipo = "int64";
 				}
-				else if(token.getLexeme().equals("real")) {
+				else if(token.getLexeme().equals("float")) {
 					tipo = "float64";
 				}
 				break;
@@ -217,7 +244,7 @@ public class Semantico implements Constants {
 				
 				for (String id : listaID) {
 					if (ts.containsKey(id)) {
-						throw new SemanticError(id + " já declarado");
+						throw new SemanticError(id + " já declarado.");
 					}
 					
 					ts.put(id, tipo);
@@ -237,7 +264,7 @@ public class Semantico implements Constants {
 				String id = token.getLexeme();
 				
 				if (!ts.containsKey(id)) {
-					throw new SemanticError(id + " não declarado");
+					throw new SemanticError(id + " não declarado.");
 				}
 				
 				String tipoID = ts.get(id);
@@ -255,11 +282,11 @@ public class Semantico implements Constants {
 				listaID.remove(0);
 				
 				if (!ts.containsKey(idCase34)) {
-					throw new SemanticError(idCase34 + " não declarado");
+					throw new SemanticError(idCase34 + " não declarado.");
 				}
 				
 				String tipoIDCase34 = ts.get(idCase34);
-				String tipoExp = pilhaDeTipos.poll();
+				//String tipoExp = pilhaDeTipos.poll();
 				
 				if (tipoIDCase34.equals("int64")) {
 					codigo.add("conv.i8");
@@ -278,7 +305,7 @@ public class Semantico implements Constants {
 				
 				for(String idCase35 : listaID) {
 					if (!ts.containsKey(idCase35)) {
-						throw new SemanticError(idCase35 + " não declarado");
+						throw new SemanticError(idCase35 + " não declarado.");
 					}
 					
 					String tipoIDCase35 = ts.get(idCase35);
@@ -304,7 +331,7 @@ public class Semantico implements Constants {
 				String idCase36 =listaID.get(0);
 				
 				if (!ts.containsKey(idCase36)) {
-					throw new SemanticError(idCase36 + " não declarado");
+					throw new SemanticError(idCase36 + " não declarado.");
 				}
 				
 				setOperadorRelacional(token.getLexeme());
@@ -317,31 +344,49 @@ public class Semantico implements Constants {
 				break;
 			case 37:
 				String labelCase37 = createLabel() ;
-				codigo.add(labelCase37 + ":");
 				pilhaDeRotulos.add(labelCase37);
+				codigo.add(pilhaDeRotulos.poll()+ ":");
 				break;
 			case 38:
 				String labelCase38 = createLabel();
-				codigo.add("br false " + labelCase38);
-				pilhaDeRotulos.add(labelCase38);
+				//String tokenLexeme = token.getLexeme();
+				
+				//if (tokenLexeme.equals("ifFalseDo")) {
+					codigo.add("brfalse " + labelCase38);
+					pilhaDeRotulos.add(labelCase38);
+				//}
+				
 				break;
 			case 39:
-				//TODO: Implementar acao 39
+				//String tokenLexeme39 = token.getLexeme();
+				
+				//if (tokenLexeme39.equals("ifFalseDo")) {
+					codigo.add(pilhaDeRotulos.poll() + ":");
+				//}
 				break;
 			case 40:
-				String labelCase39 = createLabel();
-				codigo.add("br false" + labelCase39);
+				String labelCase40 = createLabel();
+				codigo.add("br " + labelCase40);
 				codigo.add(pilhaDeRotulos.poll() + ":");
-				pilhaDeRotulos.add(labelCase39);
+				pilhaDeRotulos.add(labelCase40);
 				
 				break;
 			case 41:
-				//TODO: Implementar acao 41
+				String labelCase41 = createLabel();
+				String tokenLexeme41 = token.getLexeme();
+				
+				if (tokenLexeme41.equals("whileTrueDo")) {
+					codigo.add("brtrue" + labelCase41);
+				}else if(tokenLexeme41.equals("whileFalseDo")) {
+					codigo.add("brfalse" + labelCase41);
+				}
+				
+				codigo.add(pilhaDeRotulos.poll() + ":");
+				pilhaDeRotulos.add(labelCase41);
 				break;
 			case 42:
-				//TODO: Implementar acao 42
+				codigo.add(pilhaDeRotulos.poll() + ":");
 				break;
-				
 			default:
 				break;
 		}

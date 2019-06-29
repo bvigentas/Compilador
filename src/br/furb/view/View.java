@@ -464,12 +464,12 @@ public class View extends javax.swing.JFrame {
 				
 				Token token = null;
 
-//				while ((token = lexico.nextToken()) != null) {
-//					resultCompile.append(("Linha " + token.getRow(text) + " - " + token.getClasse(token.getId()) + " "
-//							+ token.getLexeme() + "\n"));
-//				}
-//
-//				textAreaMessage.append(resultCompile.toString());
+				while ((token = lexico.nextToken()) != null) {
+					resultCompile.append(("Linha " + token.getRow(text) + " - " + token.getClasse(token.getId()) + " "
+							+ token.getLexeme() + "\n"));
+				}
+
+				textAreaMessage.append(resultCompile.toString());
 				textAreaMessage.append("Programa compilado com sucesso.");
 				textAreaMessage.append(semantico.getCodigo().toString());
 			} catch (LexicalError erro) {
