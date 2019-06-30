@@ -328,7 +328,7 @@ public class Semantico implements Constants {
 				break;
 			case 36:
 				
-				String idCase36 =listaID.get(0);
+				String idCase36 = listaID.get(0);
 				
 				if (!ts.containsKey(idCase36)) {
 					throw new SemanticError(idCase36 + " não declarado.");
@@ -337,15 +337,15 @@ public class Semantico implements Constants {
 				setOperadorRelacional(token.getLexeme());
 				
 				if (operadorRelacional.equalsIgnoreCase("+=") || operadorRelacional.equalsIgnoreCase("-=")) {
-					codigo.add("ldloc" + idCase36);
+					codigo.add("ldloc " + idCase36);
 					codigo.add("conv.r8");
 				}
 				
 				break;
 			case 37:
 				String labelCase37 = createLabel() ;
+				codigo.add(labelCase37 + ":");
 				pilhaDeRotulos.add(labelCase37);
-				codigo.add(pilhaDeRotulos.poll()+ ":");
 				break;
 			case 38:
 				String labelCase38 = createLabel();
@@ -376,15 +376,16 @@ public class Semantico implements Constants {
 				String tokenLexeme41 = token.getLexeme();
 				
 				if (tokenLexeme41.equals("whileTrueDo")) {
-					codigo.add("brtrue" + labelCase41);
+					codigo.add("brfalse " + labelCase41);
 				}else if(tokenLexeme41.equals("whileFalseDo")) {
-					codigo.add("brfalse" + labelCase41);
+					codigo.add("brtrue " + labelCase41);
 				}
 				
-				codigo.add(pilhaDeRotulos.poll() + ":");
+				//codigo.add(pilhaDeRotulos.poll() + ":");
 				pilhaDeRotulos.add(labelCase41);
 				break;
 			case 42:
+				codigo.add("br " + pilhaDeRotulos.poll());
 				codigo.add(pilhaDeRotulos.poll() + ":");
 				break;
 			default:
