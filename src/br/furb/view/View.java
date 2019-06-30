@@ -26,6 +26,7 @@ import br.furb.semantico.SemanticError;
 import br.furb.semantico.Semantico;
 import br.furb.sintatico.Sintatico;
 import br.furb.sintatico.SyntaticError;
+import br.furb.utils.FileManager;
 import br.furb.utils.NumberedBorder;
 
 /**
@@ -471,7 +472,9 @@ public class View extends javax.swing.JFrame {
 
 				textAreaMessage.append(resultCompile.toString());
 				textAreaMessage.append("Programa compilado com sucesso.");
-				textAreaMessage.append(semantico.getCodigo().toString());
+				
+				FileManager.writeFile(System.getProperty("user.home"), semantico.getCodigo().toString());
+				
 			} catch (LexicalError erro) {
 				textAreaMessage.append(("Erro na linha " + erro.getPosition() + " - " + erro.getMessage()));
 			} catch (SyntaticError erro) {
