@@ -26,6 +26,7 @@ import br.furb.semantico.SemanticError;
 import br.furb.semantico.Semantico;
 import br.furb.sintatico.Sintatico;
 import br.furb.sintatico.SyntaticError;
+import br.furb.utils.FileManager;
 import br.furb.utils.NumberedBorder;
 
 /**
@@ -123,7 +124,6 @@ public class View extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         JPanelMenu = new javax.swing.JPanel();
         buttonNew = new javax.swing.JButton();
         buttonOpen = new javax.swing.JButton();
@@ -465,13 +465,16 @@ public class View extends javax.swing.JFrame {
 				
 				Token token = null;
 
-//				while ((token = lexico.nextToken()) != null) {
-//					resultCompile.append(("Linha " + token.getRow(text) + " - " + token.getClasse(token.getId()) + " "
-//							+ token.getLexeme() + "\n"));
-//				}
-//
-//				textAreaMessage.append(resultCompile.toString());
+				while ((token = lexico.nextToken()) != null) {
+					resultCompile.append(("Linha " + token.getRow(text) + " - " + token.getClasse(token.getId()) + " "
+							+ token.getLexeme() + "\n"));
+				}
+
+				textAreaMessage.append(resultCompile.toString());
 				textAreaMessage.append("Programa compilado com sucesso.");
+				
+				FileManager.writeFile(System.getProperty("user.home"), semantico.getCodigo().toString());
+				
 			} catch (LexicalError erro) {
 				textAreaMessage.append(("Erro na linha " + erro.getPosition() + " - " + erro.getMessage()));
 			} catch (SyntaticError erro) {
