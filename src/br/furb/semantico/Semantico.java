@@ -12,6 +12,7 @@ import java.util.Stack;
 
 import br.furb.common.Constants;
 import br.furb.common.Token;
+import br.furb.utils.StringManipulationUtil;
 
 public class Semantico implements Constants {
 	
@@ -33,7 +34,7 @@ public class Semantico implements Constants {
 	private Deque<String> pilhaDeRotulos = new ArrayDeque<String>();
 	private int ctLabel = 0;
 	
-	public void executeAction(int action, Token token) throws SemanticError {
+	public void executeAction(int action, Token token, String input) throws SemanticError {
 		System.out.println("Ação #" + action + ", Token: " + token);
 		
 
@@ -44,7 +45,7 @@ public class Semantico implements Constants {
 			case 1:
 				tipo1 = pilhaDeTipos.pop();
 				tipo2 = pilhaDeTipos.pop();
-				throwSemanticException(tipo1, tipo2,"Tipo(s) incompatível(is) em expressão aritmética.");
+				throwSemanticException(tipo1, tipo2,"Tipo(s) incompatível(is) em expressão aritmética.", token, input);
 				if ("float64".equalsIgnoreCase(tipo1) || "float64".equalsIgnoreCase(tipo2)) {
 					pilhaDeTipos.push("float64");
 				} else {
@@ -56,7 +57,7 @@ public class Semantico implements Constants {
 				tipo1 = pilhaDeTipos.pop();
 				tipo2 = pilhaDeTipos.pop();
 	
-				throwSemanticException(tipo1, tipo2,"Tipo(s) incompatível(is) em expressão aritmética.");
+				throwSemanticException(tipo1, tipo2,"Tipo(s) incompatível(is) em expressão aritmética.", token, input);
 	
 				if ("float64".equalsIgnoreCase(tipo1) || "float64".equalsIgnoreCase(tipo2)) {
 					pilhaDeTipos.push("float64");
@@ -70,7 +71,7 @@ public class Semantico implements Constants {
 				tipo1 = pilhaDeTipos.pop();
 				tipo2 = pilhaDeTipos.pop();
 	
-				throwSemanticException(tipo1, tipo2, "Tipo(s) incompatível(is) em expressão aritmética.");
+				throwSemanticException(tipo1, tipo2, "Tipo(s) incompatível(is) em expressão aritmética.", token, input);
 	
 				if ("float64".equalsIgnoreCase(tipo1) || "float64".equalsIgnoreCase(tipo2)) {
 					pilhaDeTipos.push("float64");
@@ -84,7 +85,7 @@ public class Semantico implements Constants {
 				tipo1 = pilhaDeTipos.pop();
 				tipo2 = pilhaDeTipos.pop();
 	
-				throwSemanticException(tipo1, tipo2, "Tipo(s) incompatível(is) em expressão aritmética.");
+				throwSemanticException(tipo1, tipo2, "Tipo(s) incompatível(is) em expressão aritmética.", token, input);
 	
 				pilhaDeTipos.push("float64");
 				codigo.add("div");
@@ -286,7 +287,7 @@ public class Semantico implements Constants {
 				String id = token.getLexeme();
 				
 				if (!ts.containsKey(id)) {
-					throw new SemanticError(id + " não declarado.");
+					throw new SemanticError(id + " não declarado.", StringManipulationUtil.getRowError(token.getPosition(), input));
 				}
 				
 				String tipoID = ts.get(id);
@@ -304,7 +305,7 @@ public class Semantico implements Constants {
 				listaID.remove(0);
 				
 				if (!ts.containsKey(idCase34)) {
-					throw new SemanticError(idCase34 + " não declarado.");
+					throw new SemanticError(idCase34 + " não declarado.", StringManipulationUtil.getRowError(token.getPosition(), input));
 				}
 				
 				String tipoIDCase34 = ts.get(idCase34);
@@ -326,7 +327,7 @@ public class Semantico implements Constants {
 				
 				for(String idCase35 : listaID) {
 					if (!ts.containsKey(idCase35)) {
-						throw new SemanticError(idCase35 + " não declarado.");
+						throw new SemanticError(idCase35 + " não declarado.", StringManipulationUtil.getRowError(token.getPosition(), input));
 					}
 					
 					String tipoIDCase35 = ts.get(idCase35);
@@ -352,7 +353,7 @@ public class Semantico implements Constants {
 				String idCase36 = listaID.get(0);
 				
 				if (!ts.containsKey(idCase36)) {
-					throw new SemanticError(idCase36 + " não declarado.");
+					throw new SemanticError(idCase36 + " não declarado.", StringManipulationUtil.getRowError(token.getPosition(), input));
 				}
 				
 				setOperadorRelacional(token.getLexeme());
@@ -421,14 +422,23 @@ public class Semantico implements Constants {
 		return "label" + ctLabel;
 	}
 
-	private void throwSemanticException(String tipo1, String tipo2, String mensagemErro) throws SemanticError {
+	private void throwSemanticException(String tipo1, String tipo2, String mensagemErro, Token token, String input) throws SemanticError {
 		if (verificarTipoInvalido(tipo1, tipo2)) {
-			throw new SemanticError(mensagemErro);
+			throw new SemanticError(mensagemErro, StringManipulationUtil.getRowError(token.getPosition(), input));
 		}
 	}
 
 	private boolean verificarTipoInvalido(String tipo1, String tipo2) {
 		return "bool".equalsIgnoreCase(tipo1) || "bool".equalsIgnoreCase(tipo2) || "string".equalsIgnoreCase(tipo1)
 				|| "string".equalsIgnoreCase(tipo2);
+	}
+	
+	public String retornaCodigoFormado() {
+		StringBuilder sb = new StringBuilder();
+		for (String linha : codigo) {
+			sb.append(linha);
+			sb.append("\n");
+		}
+		return sb.toString();
 	}
 }

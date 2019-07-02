@@ -465,15 +465,15 @@ public class View extends javax.swing.JFrame {
 				
 				Token token = null;
 
-				while ((token = lexico.nextToken()) != null) {
-					resultCompile.append(("Linha " + token.getRow(text) + " - " + token.getClasse(token.getId()) + " "
-							+ token.getLexeme() + "\n"));
-				}
+//				while ((token = lexico.nextToken()) != null) {
+//					resultCompile.append(("Linha " + token.getRow(text) + " - " + token.getClasse(token.getId()) + " "
+//							+ token.getLexeme() + "\n"));
+//				}
 
-				textAreaMessage.append(resultCompile.toString());
+				//textAreaMessage.append(resultCompile.toString());
 				textAreaMessage.append("Programa compilado com sucesso.");
 				
-				FileManager.writeFile(System.getProperty("user.home"), semantico.getCodigo().toString());
+				FileManager.writeFile(System.getProperty("user.home"), semantico.retornaCodigoFormado());
 				
 			} catch (LexicalError erro) {
 				textAreaMessage.append(("Erro na linha " + erro.getPosition() + " - " + erro.getMessage()));
