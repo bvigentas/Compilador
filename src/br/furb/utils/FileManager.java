@@ -82,9 +82,7 @@ public class FileManager {
      * @return 
      */
     public static String generateFileName(String caminho){
-        Random random = new Random();
-        Date data = new Date();
-        return caminho + System.getProperty("file.separator") + "compiled_code_" + data.getTime() + Integer.toString(random.nextInt(999))+ ".il";
+        return caminho.replaceAll(".txt", ".il");
         
     }
     
