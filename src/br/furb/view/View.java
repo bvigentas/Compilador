@@ -27,6 +27,7 @@ import br.furb.semantico.Semantico;
 import br.furb.sintatico.Sintatico;
 import br.furb.sintatico.SyntaticError;
 import br.furb.utils.FileManager;
+import br.furb.utils.Messages;
 import br.furb.utils.NumberedBorder;
 
 /**
@@ -37,6 +38,7 @@ public class View extends javax.swing.JFrame {
 
     private boolean isNewFile = true;
     private File currentFile = null;
+	private String savedPath = "";
 
     public View() {
         initComponents();
@@ -403,14 +405,13 @@ public class View extends javax.swing.JFrame {
         this.textAreaEditor.setText("");
         this.textAreaMessage.setText("");
         this.labelStatus.setText("");
-
+        this.savedPath = "";
         isNewFile = true;
         currentFile = null;
     }//GEN-LAST:event_buttonNewActionPerformed
 
     private void buttonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveActionPerformed
         String content = textAreaEditor.getText();
-
         if (isNewFile) {
             JFileChooser fileChooser = new JFileChooser();
             if (JFileChooser.APPROVE_OPTION == fileChooser.showSaveDialog(this)) {
@@ -421,6 +422,7 @@ public class View extends javax.swing.JFrame {
                     labelStatus.setText(fileName);
                     isNewFile = false;
                     currentFile = new File(fileName);
+                    this.savedPath = currentFile.getAbsolutePath();
                 } catch (IOException e) {
                     JOptionPane.showMessageDialog(this, "Erro ao salvar arquivo: " + e.getMessage());
                 }
@@ -428,6 +430,7 @@ public class View extends javax.swing.JFrame {
         } else {
             try {
                 this.writeFile(currentFile.getAbsolutePath(), content);
+                this.savedPath = currentFile.getAbsolutePath();
                 textAreaMessage.setText("");
                 currentFile = new File(currentFile.getAbsolutePath());
             } catch (IOException e) {
@@ -450,6 +453,11 @@ public class View extends javax.swing.JFrame {
 
     private void buttonCompileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCompileActionPerformed
         
+    	if ("".equals(this.savedPath)) {
+    		JOptionPane.showMessageDialog(this, Messages.SAVE_BEFORE_COMPILE);
+    		return;
+    	}
+    	
     	textAreaMessage.setText("");
     	String text = textAreaEditor.getText();
     	StringBuilder resultCompile = new StringBuilder();
@@ -473,7 +481,7 @@ public class View extends javax.swing.JFrame {
 				//textAreaMessage.append(resultCompile.toString());
 				textAreaMessage.append("Programa compilado com sucesso.");
 				
-				FileManager.writeFile(System.getProperty("user.home"), semantico.retornaCodigoFormado());
+				FileManager.writeFile(this.savedPath, semantico.retornaCodigoFormado());
 				
 			} catch (LexicalError erro) {
 				textAreaMessage.append(("Erro na linha " + erro.getPosition() + " - " + erro.getMessage()));
@@ -507,6 +515,7 @@ public class View extends javax.swing.JFrame {
                 this.labelStatus.setText(absolutePath);
 
                 currentFile = file;
+                this.savedPath = currentFile.getAbsolutePath();
                 isNewFile = false;
                 
             } catch (IOException e) {
