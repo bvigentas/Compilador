@@ -27,7 +27,7 @@ public class Acao35 implements Acao {
 			String classe = "";
 
 			if (tipoIDCase35.equals(Types64.INT)) {
-				classe = Types64.INT;
+				classe = "Int64";
 			} else if (tipoIDCase35.equals(Types64.FLOAT)) {
 				classe = "Double";
 			}
