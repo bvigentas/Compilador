@@ -30,10 +30,18 @@ public class Acao35 implements Acao {
 				classe = "Int64";
 			} else if (tipoIDCase35.equals(Types64.FLOAT)) {
 				classe = "Double";
+			} else if (tipoIDCase35.equals("char")) {
+				classe = "Char";
+			} else if (tipoIDCase35.equals("bool")) {
+				classe = "Boolean";
 			}
 
 			codigo.add("call string [mscorlib]System.Console::ReadLine()");
-			codigo.add("call " + tipoIDCase35 + " [mscorlib]System." + classe + "::Parse(string)");
+			
+			if (!"string".equals(tipoIDCase35)) {
+				codigo.add("call " + tipoIDCase35 + " [mscorlib]System." + classe + "::Parse(string)");
+			}
+			
 			codigo.add("stloc " + idCase35);
 
 		}

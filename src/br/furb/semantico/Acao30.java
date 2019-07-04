@@ -14,10 +14,18 @@ public class Acao30 implements Acao {
 			List<String> listaID, Deque<String> pilhaDeTipos, Deque<String> pilhaDeRotulos, int ctLabel, Token token,
 			String input) throws SemanticError {
 
-		if (token.getLexeme().equals("int")) {
+		String lexeme = token.getLexeme();
+		
+		if ("int".equals(lexeme)) {
 			tipo = Types64.INT;
-		} else if (token.getLexeme().equals("float")) {
+		} else if ("float".equals(lexeme)) {
 			tipo = Types64.FLOAT;
+		} else if ("char".equals(lexeme)) {
+			tipo = "char";
+		} else if ("bool".equals(lexeme)) {
+			tipo = "bool";
+		} else if ("string".equals(lexeme)) {
+			tipo = "string";
 		}
 
 		SemanticVariables variables = new SemanticVariables();

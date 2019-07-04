@@ -19,7 +19,7 @@ public class Acao10 implements Acao {
 
 		if (tipo1.equals("string") || tipo2.equals("string")) {
 			if (tipo1.equalsIgnoreCase(tipo2)) {
-				pilhaDeTipos.pop();
+				pilhaDeTipos.push("bool");
 			} else {
 				throw new SemanticError(Messages.ENCONPATIBLE_TYPES_RELATIONAL_EXPRESSION);
 			}

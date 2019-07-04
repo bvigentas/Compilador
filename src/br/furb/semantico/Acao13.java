@@ -22,7 +22,7 @@ public class Acao13 implements Acao {
 			throw new SemanticError(Messages.ENCONPATIBLE_TYPES_LOGIC_EXPRESSION, StringManipulationUtil.getRowError(token.getPosition(), input));
 		}
 		codigo.add("ldc.i4.1");
-		codigo.add("not");
+		codigo.add("xor");
 
 		SemanticVariables variables = new SemanticVariables();
 		variables.setVariables(tipo, operadorRelacional, codigo, ts, listaID, pilhaDeTipos, pilhaDeRotulos, ctLabel);
